@@ -49,39 +49,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ComposePracticeTheme {
-//                var count = remember { // use remember so it won't set the initial value to 0 again when recomposed
-//                    mutableStateOf(0)
-//                }
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-//                }
-
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Column(
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .padding(innerPadding),
-//                        verticalArrangement = Arrangement.Center,
-//                        horizontalAlignment = Alignment.CenterHorizontally
-//                    ) {
-//                        Text(
-//                            text = count.value.toString(), // recomposed if state "count" changed
-//                            fontSize = 30.sp
-//                        )
-//                        Button(onClick = {
-//                            count.value++
-//                        }) {
-//                            Text(text = "Click me + ${count.value}") // also recomposed if state changed
-//                        }
-//
-//                    }
-//                }
-
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyApp(
+                    ListNamesWithState(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -91,7 +60,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyApp(modifier: Modifier = Modifier) {
+fun ListNamesWithState(modifier: Modifier = Modifier) {
     var name by remember { mutableStateOf("") }
 
     var names by remember {
@@ -141,6 +110,30 @@ fun MyApp(modifier: Modifier = Modifier) {
 }
 
 @Composable
+fun ButtonClickWithState(modifier: Modifier = Modifier) {
+    var count = remember { // use remember so it won't set the initial value to 0 again when recomposed
+        mutableStateOf(0)
+    }
+
+    Column(
+        modifier = modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = count.value.toString(), // recomposed if state "count" changed
+            fontSize = 30.sp
+        )
+        Button(onClick = {
+            count.value++
+        }) {
+            Text(text = "Click me + ${count.value}") // also recomposed if state changed
+        }
+    }
+}
+
+@Composable
 fun GreetingColumn(name: String, modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -162,113 +155,87 @@ fun GreetingColumn(name: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun GreetingRow(modifier: Modifier = Modifier) {
-    
+fun GreetingRow(name: String, modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier
+            .size(400.dp)
+    ) {
+        Text(
+            text = "Hello $name!",
+            modifier = modifier,
+            fontSize = 30.sp
+        )
+        Text(
+            text = "Whatever",
+            modifier = modifier
+        )
+    }
 }
 
 @Composable
-fun GreetingBox(modifier: Modifier = Modifier) {
-    
+fun GreetingImage(modifier: Modifier = Modifier) {
+    Image(
+        painter = painterResource(R.drawable.ic_launcher_foreground),
+        contentDescription = null,
+        modifier = modifier
+            .background(Color.Red)
+    )
+}
+
+@Composable
+fun GreetingBox(name: String, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .size(400.dp)
+    ) {
+        Text(
+            text = "Hello $name!",
+            modifier = modifier
+                .align(Alignment.BottomEnd),
+            fontSize = 30.sp
+        )
+        Text(
+            text = "Whatever",
+            modifier = modifier
+        )
+    }
 }
 
 @Composable
 fun GreetingLazyColumn(modifier: Modifier = Modifier) {
-    
+    LazyColumn(
+        modifier = modifier.fillMaxSize()
+    ) {
+        items(10) {
+            Icon(
+                imageVector = Icons.Default.Clear,
+                contentDescription = null,
+                modifier = modifier.size(400.dp)
+            )
+        }
+    }
 }
 
 @Composable
-fun GreetingLazyRow(modifier: Modifier = Modifier) {
-    
+fun GreetingLazyRow(name: String, modifier: Modifier = Modifier) {
+    LazyRow(
+        modifier = modifier.fillMaxSize()
+    ) {
+        items(10) {
+            Icon(
+                imageVector = Icons.Default.Clear,
+                contentDescription = null,
+                modifier = modifier.size(400.dp)
+            )
+        }
+    }
 }
-
-//@Composable
-//fun Greeting(name: String, modifier: Modifier = Modifier) {
-////    Column(
-////        horizontalAlignment = Alignment.CenterHorizontally,
-////        verticalArrangement = Arrangement.Center,
-////        modifier = modifier
-////            .fillMaxSize() // fill our parent
-////            //.size(400.dp) (for fixed size)
-////    ) {
-////        Text(
-////            text = "Hello $name!",
-////            modifier = modifier,
-////            fontSize = 30.sp
-////        )
-////        Text(
-////            text = "Whatever",
-////            modifier = modifier
-////        )
-////    }
-//
-////    Row(
-////        modifier = modifier
-////            .size(400.dp)
-////    ) {
-////        Text(
-////            text = "Hello $name!",
-////            modifier = modifier,
-////            fontSize = 30.sp
-////        )
-////        Text(
-////            text = "Whatever",
-////            modifier = modifier
-////        )
-////    }
-//
-////    Box(
-////        modifier = modifier
-////            .size(400.dp)
-////    ) {
-////        Text(
-////            text = "Hello $name!",
-////            modifier = modifier
-////                .align(Alignment.BottomEnd),
-////            fontSize = 30.sp
-////        )
-////        Text(
-////            text = "Whatever",
-////            modifier = modifier
-////        )
-////    }
-//
-////    Image(
-////        painter = painterResource(R.drawable.ic_launcher_foreground),
-////        contentDescription = null,
-////        modifier = modifier
-////            .background(Color.Red)
-////    )
-//
-////    LazyColumn(
-////        modifier = modifier.fillMaxSize()
-////    ) {
-////        items(10) {
-////            Icon(
-////                imageVector = Icons.Default.Clear,
-////                contentDescription = null,
-////                modifier = modifier.size(400.dp)
-////            )
-////        }
-////    }
-//
-//    LazyRow(
-//        modifier = modifier.fillMaxSize()
-//    ) {
-//        items(10) {
-//            Icon(
-//                imageVector = Icons.Default.Clear,
-//                contentDescription = null,
-//                modifier = modifier.size(400.dp)
-//            )
-//        }
-//    }
-//}
 
 //@Preview(showBackground = true)
 //@Composable
 //fun GreetingPreview() {
 //    ComposePracticeTheme {
-//        Greeting("Android")
+//        GreetingLazyColumn()
 //    }
 //}
 
@@ -276,6 +243,6 @@ fun GreetingLazyRow(modifier: Modifier = Modifier) {
 @Composable
 fun MyAppPreview() {
     ComposePracticeTheme {
-        MyApp()
+        ListNamesWithState()
     }
 }
